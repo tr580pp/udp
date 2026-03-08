@@ -1,5 +1,7 @@
-import sys
-input = sys.stdin.readline
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
 
 def recurse(arr, left, right, result):
     if left < 0 and right >= len(arr):
@@ -16,14 +18,25 @@ def recurse(arr, left, right, result):
 n = int(input())
 values = list(map(int, input().split()))
 
-mid = n // 2
+head = Node(values[0])
+curr = head
+for v in values[1:]:
+    curr.next = Node(v)
+    curr = curr.next
 
+arr = []
+curr = head
+while curr:
+    arr.append(curr.data)
+    curr = curr.next
+
+mid = n // 2
 result = []
 if n % 2 == 1:
-    recurse(values, mid, mid, result)
+    recurse(arr, mid, mid, result)
 else:
-    result.append(values[mid - 1])
-    result.append(values[mid])
-    recurse(values, mid - 2, mid + 1, result)
+    result.append(arr[mid - 1])
+    result.append(arr[mid])
+    recurse(arr, mid - 2, mid + 1, result)
 
 print(", ".join(map(str, result)))
